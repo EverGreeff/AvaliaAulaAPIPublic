@@ -1,0 +1,83 @@
+server {
+
+  index index.php;
+
+  server_name boxdistribuidorb2b.sigin.mobi;
+
+  root /data/www/boxdistribuidorb2b.sigin.mobi/public/sis/b2b;
+
+  access_log /var/log/nginx/boxdistribuidorb2b.sigin.mobi.access.log;
+  error_log /var/log/nginx/boxdistribuidorb2b.sigin.mobi.error.log error;
+  
+  location / {
+    try_files $uri $uri/ /index.php?$query_string;
+  }
+
+  location ~ \.php$ {
+    try_files $uri /index.php =404;
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    fastcgi_pass unix:/var/run/php/php5.6-fpm.sock;
+    fastcgi_index index.php;
+    include fastcgi_params;
+    fastcgi_param DOCUMENT_ROOT $realpath_root;
+    fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+  }
+
+#    listen [::]:443 ssl; # managed by Certbot
+#    listen 443 ssl; # managed by Certbot
+#    ssl_certificate /etc/letsencrypt/live/rest.sigin.mobi/fullchain.pem; # managed by Certbot
+#    ssl_certificate_key /etc/letsencrypt/live/rest.sigin.mobi/privkey.pem; # managed by Certbot
+#    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+#    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+#ativar https em breve
+#    listen 443 ssl; # managed by Certbot
+#    ssl_certificate /etc/letsencrypt/live/rest.sigin.mobi/fullchain.pem; # managed by Certbot
+#    ssl_certificate_key /etc/letsencrypt/live/rest.sigin.mobi/privkey.pem; # managed by Certbot
+#    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+#    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+
+
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/boxdistribuidorb2b.sigin.mobi/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/boxdistribuidorb2b.sigin.mobi/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+
+server {
+
+    if ($host = boxdistribuidorb2b.sigin.mobi) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+  listen 80;
+  listen [::]:80;
+
+  server_name boxdistribuidorb2b.sigin.mobi;
+    return 404; # managed by Certbot
+
+
+
+
+}
+
+server {
+    if ($host = boxdistribuidorb2b.sigin.mobi) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+
+  server_name boxdistribuidorb2b.sigin.mobi;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+}
